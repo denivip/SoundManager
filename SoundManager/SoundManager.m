@@ -119,6 +119,23 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
     return self;
 }
 
+- (Sound *)initWithData:(NSData *)_data
+{
+    if ((self = [super init]))
+    {
+        data = AH_RETAIN(_data);
+        baseVolume = 1.0f;
+
+#ifdef SM_USE_AV_AUDIO_PLAYER
+        sound = [[AVAudioPlayer alloc] initWithData:data error:NULL];
+#else
+        return nil;
+#endif
+        self.volume = 1.0f;
+    }
+    return self;
+}
+
 - (void)prepareToPlay
 {
     //avoid overhead from repeated calls
