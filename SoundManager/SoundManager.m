@@ -69,6 +69,7 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
 @synthesize timer;
 @synthesize selfReference;
 @synthesize url;
+@synthesize data;
 @synthesize sound;
 @synthesize completionHandler;
 
@@ -122,6 +123,23 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
         sound = [[AVAudioPlayer alloc] initWithContentsOfURL:_url error:NULL];
 #else
         sound = [[NSSound alloc] initWithContentsOfURL:_url byReference:YES];
+#endif
+        self.volume = 1.0f;
+    }
+    return self;
+}
+
+- (Sound *)initWithData:(NSData *)_data
+{
+    if ((self = [super init]))
+    {
+        data = AH_RETAIN(_data);
+        baseVolume = 1.0f;
+
+#ifdef SM_USE_AV_AUDIO_PLAYER
+        sound = [[AVAudioPlayer alloc] initWithData:data error:NULL];
+#else
+        return nil;
 #endif
         self.volume = 1.0f;
     }
@@ -323,6 +341,7 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
     [timer invalidate];
     AH_RELEASE(timer);
     AH_RELEASE(url);
+    AH_RELEASE(data);
     AH_RELEASE(sound);
     AH_RELEASE(completionHandler);
     AH_SUPER_DEALLOC;

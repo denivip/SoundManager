@@ -107,6 +107,7 @@ typedef void (^SoundCompletionHandler)(BOOL didFinish);
     NSTimer *timer;
     Sound *selfReference;
     NSURL *url;
+    NSData *data;
     SM_SOUND *sound;
     SoundCompletionHandler completionHandler;
 }
@@ -117,9 +118,11 @@ typedef void (^SoundCompletionHandler)(BOOL didFinish);
 - (Sound *)initWithContentsOfFile:(NSString *)path;
 + (Sound *)soundWithContentsOfURL:(NSURL *)url;
 - (Sound *)initWithContentsOfURL:(NSURL *)url;
+- (Sound *)initWithData:(NSData *)data;
 
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, strong) NSURL *url;
+@property (nonatomic, readonly, strong) NSData *data;
 @property (nonatomic, readonly, getter = isPlaying) BOOL playing;
 @property (nonatomic, assign, getter = isLooping) BOOL looping;
 @property (nonatomic, copy) SoundCompletionHandler completionHandler;
