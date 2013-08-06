@@ -134,6 +134,7 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
     if ((self = [super init]))
     {
         data = AH_RETAIN(_data);
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"sound-manager-data://%u", [data hash]]];
         baseVolume = 1.0f;
 
 #ifdef SM_USE_AV_AUDIO_PLAYER
