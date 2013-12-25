@@ -119,16 +119,16 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
     return self;
 }
 
-- (Sound *)initWithData:(NSData *)_data
+- (Sound *)initWithData:(NSData *)data
 {
     if ((self = [super init]))
     {
-        data = AH_RETAIN(_data);
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"sound-manager-data://%u", [data hash]]];
-        baseVolume = 1.0f;
+        _data = data;
+        _URL = [NSURL URLWithString:[NSString stringWithFormat:@"sound-manager-data://%lu", (unsigned long)[_data hash]]];
+        _baseVolume = 1.0f;
 
 #ifdef SM_USE_AV_AUDIO_PLAYER
-        sound = [[AVAudioPlayer alloc] initWithData:data error:NULL];
+        _sound = [[AVAudioPlayer alloc] initWithData:data error:NULL];
 #else
         return nil;
 #endif
